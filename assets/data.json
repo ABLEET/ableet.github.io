@@ -1,0 +1,37 @@
+[
+    {
+        "id" : 1,
+        "title" : "الناقص",
+        "sound" : "oh_my_god.mp3"
+    },
+    {
+        "id" : 2,
+        "title" : "تبادل مع اليمين",
+        "sound" : "ewa_yahamiid.mp3"
+    },
+    {
+        "id" : 3,
+        "title" : "عاود",
+        "sound" : "rrend.mp3"
+    },
+    {
+        "id" : 4,
+        "title" : "الزائد",
+        "sound" : "b9a_fiya_l7al.mp3"
+    },
+    {
+        "id" : 5,
+        "title" : "عفو ملكي",
+        "sound" : "impopssi.mp3"
+    },
+    {
+        "id" : 6,
+        "title" : "تخطي جولة",
+        "sound" : "water_please.mp3"
+    },
+    {
+        "id" : 7,
+        "title" : "بالصحة والراحة",
+        "sound" : "new_level.mp3"
+    }
+]

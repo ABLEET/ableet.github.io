@@ -1,0 +1,35 @@
+@font-face {
+    font-family: "Cairo";
+    src: url(./Cairo-VariableFont_wght.ttf);
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    outline: none;
+}
+body {
+    /*font*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    background: #123;
+    background-size: cover;
+}
+
+text{
+    font-family: "Cairo", Arial, sans-serif;
+    font-size: 1rem;
+    pointer-events:none;
+}
+#chart{
+    position:absolute;
+    width:500px;
+    height:500px;
+    top:0;
+    left:0;
+}

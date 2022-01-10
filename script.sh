@@ -1,1 +1,0 @@
-echo "Hhhh Tbarkellah 3lik" ; reboot
