@@ -1,13 +1,13 @@
 var data = [
     { "id" : 0, "title" : "محايد", "sound" : "water_please.mp3" },
-    { "id" : 1, "title" : "الناقص", "sound" : "oh_my_god.mp3" },
+    { "id" : 1, "title" : "- الناقص -", "sound" : "siuuu.mp3" },
     { "id" : 2, "title" : "تبادل مع اليمين", "sound" : "ewa_yahamiid.mp3" },
     { "id" : 3, "title" : "عاود", "sound" : "rrend.mp3" },
     { "id" : 4, "title" : "محايد", "sound" : "water_please.mp3" },
-    { "id" : 5, "title" : "الزائد", "sound" : "b9a_fiya_l7al.mp3" },
+    { "id" : 5, "title" : "+ الزائد +", "sound" : "b9a_fiya_l7al.mp3" },
     { "id" : 6, "title" : "عفو ملكي", "sound" : "impossi.mp3" },
     { "id" : 7, "title" : "محايد", "sound" : "water_please.mp3" },
-    { "id" : 8, "title" : "تخطي جولة", "sound" : "water_please.mp3" },
+    { "id" : 8, "title" : "تخطي جولة", "sound" : "oh_my_god.mp3" },
     { "id" : 9, "title" : "محايد", "sound" : "water_please.mp3" },
     { "id" : 10, "title" : "بالصحة والراحة", "sound" : "new_level.mp3" }
 ];
@@ -16,7 +16,8 @@ var padding, svg, container, vis, pie, arc, arcs, audio, oldpick = [];
 reset();
 
 function spin(d){
-    
+    let btn = document.querySelector("button#btn-reset");
+    btn.setAttribute("disabled", "");
     container.on("click", null);
     if(oldpick.length == data.length){
         reset();
@@ -46,7 +47,9 @@ function spin(d){
             //mark res as seen
             audio = new Audio('./assets/Sounds/'+data[picked].sound);
             d3.select(".slice:nth-child(" + (picked + 1) + ") path")
-            .attr("fill", "#000");
+            .attr("fill", "#FFF");
+            d3.select(".slice:nth-child(" + (picked + 1) + ") text")
+            .attr("style", "filter: blur(2px);");
             //populate res
             d3.select("#res")
             .text(data[picked].res);
@@ -58,6 +61,8 @@ function spin(d){
             /* Comment the below line for restrict spin to sngle time */
             container.on("click", spin);
             audio.play();
+            let btn = document.querySelector("button#btn-reset");
+            btn.removeAttribute("disabled", "");
         });
 }
 
@@ -125,7 +130,9 @@ function reset() {
         .attr("height", h + padding.top + padding.bottom);
     container = svg.append("g")
         .attr("class", "chartholder")
-        .attr("transform", "translate(" + (w/2 + padding.left) + "," + (h/2 + padding.top) + ")");
+        .attr("transform", "translate(" + (w/2 + padding.left) + "," + (h/2 + padding.top) + ")")
+        .attr("stroke", "#123")
+        .attr("stroke-width", "4");
     vis = container
     .append("g");
     pie = d3.layout.pie().sort(null).value(function(d){return 1;});
@@ -156,7 +163,7 @@ function reset() {
     .attr("transform", "translate(" + (w + padding.left + padding.right) + "," + ((h/2)+padding.top) + ")")
     .append("path")
     .attr("d", "M-" + (r*.15) + ",0L0," + (r*.05) + "L0,-" + (r*.05) + "Z")
-    .style({"fill":"black"});
+    .style({"fill":"#FFF"});
     //draw spin circle
     container.append("circle")
     .attr("cx", 0)
@@ -166,10 +173,10 @@ function reset() {
     //spin text
     container.append("text")
     .attr("x", 0)
-    .attr("y", 15)
+    .attr("y", 4)
     .attr("text-anchor", "middle")
-    .text("SPIN")
-    .style({"font-weight":"bold", "font-size":"30px"});
+    .text("دورني")
+    .style({"font-weight":"bold", "font-size":"35px"});
 
     container.on("click", spin);
 }

@@ -11,34 +11,61 @@
     outline: none;
 }
 body {
-    /*font*/
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh;
     background: #123;
+    color: #FFF;
     background-size: cover;
 }
 
-text{
-    font-size: 1rem;
-    pointer-events:none;
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+h1 {
+    color: #FFF;
+    margin-top: 1rem;
+    padding: 1rem;
 }
 
 button {
+    margin: 2rem 0;
     cursor: pointer;
     padding: .4rem 2rem;
     background: #123;
     color: #FFF;
-    border: 3px solid #FFF;
+    border: 2px solid #FFF;
     font-size: 13px;
-    border-radius: 1rem;
+    border-radius: 5rem;
     font-weight: bold;
 }
 
 #chart{
     width:500px;
     height:500px;
+    position: relative;
+    left: 1.5rem;
+}
+
+text{
+    font-size: 1.3rem;
+    font-weight: bold;
+    pointer-events: none;
+    stroke: none;
+    fill: #123;
+}
+
+span#copy {
+    display: block;
+    background: #FFF;
+    color: #123;
+    padding: 0.5rem 5rem;
+    border-radius: 5rem 5rem 0 0;
+    font-weight: 800;
 }
