@@ -1,18 +1,17 @@
 var data = [
-    { "id" : 0, "title" : "محايد", "sound" : "water_please.mp3" },
-    { "id" : 1, "title" : "- الناقص -", "sound" : "siuuu.mp3" },
+    { "id" : 0, "title" : "مـحـــــا يـد", "sound" : "water_please.mp3" },
+    { "id" : 1, "title" : "- النـــــا قص -", "sound" : "siuuu.mp3" },
     { "id" : 2, "title" : "تبادل مع اليمين", "sound" : "ewa_yahamiid.mp3" },
-    { "id" : 3, "title" : "عاود", "sound" : "rrend.mp3" },
-    { "id" : 4, "title" : "محايد", "sound" : "water_please.mp3" },
-    { "id" : 5, "title" : "+ الزائد +", "sound" : "b9a_fiya_l7al.mp3" },
-    { "id" : 6, "title" : "عفو ملكي", "sound" : "impossi.mp3" },
-    { "id" : 7, "title" : "محايد", "sound" : "water_please.mp3" },
-    { "id" : 8, "title" : "تخطي جولة", "sound" : "oh_my_god.mp3" },
-    { "id" : 9, "title" : "محايد", "sound" : "water_please.mp3" },
-    { "id" : 10, "title" : "بالصحة والراحة", "sound" : "new_level.mp3" }
+    { "id" : 3, "title" : "عـــــــــا و د", "sound" : "rrend.mp3" },
+    { "id" : 4, "title" : "مـحـــــا يـد", "sound" : "water_please.mp3" },
+    { "id" : 5, "title" : "+ الـــــز ا ئـد +", "sound" : "aaah.mp3" },
+    { "id" : 6, "title" : "عـفـــو ملكي", "sound" : "impossi.mp3" },
+    { "id" : 7, "title" : "مـحـــــا يـد", "sound" : "water_please.mp3" },
+    { "id" : 8, "title" : "تخـطـي جـولة", "sound" : "oh_my_god.mp3" },
+    { "id" : 9, "title" : "بالصحة والراحة", "sound" : "directed_by.mp3" }
 ];
 
-var padding, svg, container, vis, pie, arc, arcs, audio, oldpick = [];
+var padding, svg, container, vis, pie, arc, arcs, audio, oldpick = [], complexity = 6;
 reset();
 
 function spin(d){
@@ -49,15 +48,12 @@ function spin(d){
             d3.select(".slice:nth-child(" + (picked + 1) + ") path")
             .attr("fill", "#FFF");
             d3.select(".slice:nth-child(" + (picked + 1) + ") text")
-            .attr("style", "filter: blur(2px);");
+            .attr("style", "filter: blur(1.5px);")
+            .attr("fill", "#123");
             //populate res
             d3.select("#res")
             .text(data[picked].res);
             oldrotation = rotation;
-            
-            /* Get the result value from object "data" */
-            console.log(data[picked].id)
-            
             /* Comment the below line for restrict spin to sngle time */
             container.on("click", spin);
             audio.play();
@@ -79,7 +75,6 @@ function getRandomNumbers(){
     var scale = d3.scale.linear().range([360, 1440]).domain([0, 100000]);
     if(window.hasOwnProperty("crypto") && typeof window.crypto.getRandomValues === "function"){
         window.crypto.getRandomValues(array);
-        console.log("works");
     } else {
         //no support for crypto, get crappy random numbers
         for(var i=0; i < 1000; i++){
@@ -89,18 +84,54 @@ function getRandomNumbers(){
     return array;
 }
 
-
+function getColor(isBg, index) {
+    if (isBg)
+    {
+        switch(data[index].id)
+        {
+            case 1:
+                return "#4a934a";
+            break;
+            case 5:
+                return "#d7191c";
+            break;
+            case 9:
+                return "#f2b43b";
+            break;
+            default:
+                return (index % 2 == 0) ? "#325170" : "#133454"; 
+        }
+    }
+    else
+    {
+        switch(data[index].id)
+        {
+            case 1:
+                return "#FFF";
+            break;
+            case 5:
+                return "#FFF";
+            break;
+            case 9:
+                return "#fff7e8";
+            break;
+            default:
+                return "#c9c9c9"; 
+        }
+    }
+}
 
 function reset() {
     let n = true;
     if (oldpick.length > 0)
     {
+        complexity--;
         data = data.filter((v, k) => {
-            if (v.id == 10 && oldpick.find(val => data[val].id == v.id) == undefined)
+            if (v.id == 9 && oldpick.find(val => data[val].id == v.id) == undefined)
                 return v;
-            if (v.id != 10)
+            if (v.id != 9)
             {
-                if ((v.id == 0) || (v.id == 4) || (v.id == 7) || (v.id == 9))
+                if ((v.id == 0) || (v.id == 4) || (v.id == 7))
                 {
                     if (oldpick.find(val => data[val].id == v.id) != undefined && n)
                         n = false;
@@ -111,6 +142,14 @@ function reset() {
                     return v;
             }
         });
+        if (complexity < 0)
+        {
+            let indx = Math.floor(Math.random() * data.length - 1);
+            data.splice(indx, 0, data.find((i) => { return i.id == 5;}))
+            complexity = 2;
+            if (data.filter((i) => { return i.id == 5;}).length > 2)
+                complexity = 10;
+        }
         oldpick = [];
     }
     d3.select('#chart').html("");
@@ -145,7 +184,7 @@ function reset() {
         .append("g")
         .attr("class", "slice");
     arcs.append("path")
-        .attr("fill", function(d, i){ return color(i); })
+        .attr("fill", function(d, i){ return getColor(true, i); })
         .attr("d", function (d) { return arc(d); });
     // add the text
     arcs.append("text").attr("transform", function(d){
@@ -155,6 +194,7 @@ function reset() {
             return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")translate(" + (d.outerRadius -10) +")";
         })
         .attr("text-anchor", "end")
+        .attr("fill", function(d, i){ return getColor(false, i); })
         .text( function(d, i) {
             return data[i].title;
         });
@@ -176,6 +216,7 @@ function reset() {
     .attr("y", 4)
     .attr("text-anchor", "middle")
     .text("دورني")
+    .attr("fill", "#123")
     .style({"font-weight":"bold", "font-size":"35px"});
 
     container.on("click", spin);
