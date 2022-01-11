@@ -18,7 +18,7 @@ function spin(d){
     let btn = document.querySelector("button#btn-reset");
     btn.setAttribute("disabled", "");
     container.on("click", null);
-    if(oldpick.length == data.length){
+    if(oldpick.length >= data.length){
         reset();
         return;
     }
