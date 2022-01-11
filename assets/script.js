@@ -149,7 +149,7 @@ function reset() {
             complexity = 3;
             if (data.filter((i) => { return i.id == 5;}).length > 2)
             {
-                data = data.filter((i) => { return i.id != 6;});
+                data = data.filter((i) => { return i.id != 6 && i.id != 8;});
                 complexity = 10;
             }
         }
