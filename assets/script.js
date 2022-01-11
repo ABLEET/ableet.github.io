@@ -45,14 +45,20 @@ function spin(d){
         .each("end", function(){
             //mark res as seen
             audio = new Audio('./assets/Sounds/'+data[picked].sound);
-            d3.select(".slice:nth-child(" + (picked + 1) + ") path")
-            .attr("fill", "#FFF");
-            d3.select(".slice:nth-child(" + (picked + 1) + ") text")
-            .attr("style", "filter: blur(1.5px);")
-            .attr("fill", "#123");
-            //populate res
-            d3.select("#res")
-            .text(data[picked].res);
+            for (let i = 0; i < data.length; i++)
+            {
+                if (data[i].id == data[picked].id)
+                {
+                    let x = (document.querySelector("#onePlus").checked) ? i : picked; 
+                    if (picked != i && document.querySelector("#onePlus").checked)
+                        oldpick.push(i);
+                    d3.select(".slice:nth-child(" + (x + 1) + ") path")
+                    .attr("fill", "#FFF");
+                    d3.select(".slice:nth-child(" + (x + 1) + ") text")
+                    .attr("style", "filter: blur(1.5px);")
+                    .attr("fill", "#123");
+                }
+            }
             oldrotation = rotation;
             /* Comment the below line for restrict spin to sngle time */
             container.on("click", spin);
@@ -149,6 +155,7 @@ function reset() {
             complexity = 3;
             if (data.filter((i) => { return i.id == 5;}).length > 2)
             {
+                document.querySelector("label.plus").style.display = "block";
                 data = data.filter((i) => { return i.id != 6 && i.id != 8;});
                 complexity = 10;
             }
