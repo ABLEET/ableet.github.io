@@ -146,9 +146,12 @@ function reset() {
         {
             let indx = Math.floor(Math.random() * data.length - 1);
             data.splice(indx, 0, data.find((i) => { return i.id == 5;}))
-            complexity = 2;
+            complexity = 3;
             if (data.filter((i) => { return i.id == 5;}).length > 2)
+            {
+                data = data.filter((i) => { return i.id != 6;});
                 complexity = 10;
+            }
         }
         oldpick = [];
     }
