@@ -12,6 +12,7 @@ var data = [
 ];
 
 var padding, svg, container, vis, pie, arc, arcs, audio, oldpick = [], complexity = 6;
+let probWin = Math.round((Math.random() + 1) * 2), winPassed = true;
 reset();
 
 function spin(d){
@@ -31,41 +32,57 @@ function spin(d){
     
     picked = Math.round(data.length - (rotation % 360)/ps);
     picked = picked >= data.length ? (picked % data.length) : picked;
+    if (data[picked].id == 9 && probWin > 0)
+    {
+        if (winPassed)
+        {
+            probWin--;
+            winPassed = false;
+        }
+        if (oldpick.length == data.length - 1)
+            reset();
+        d3.select(this).call(spin);
+        return;
+    }
     if(oldpick.indexOf(picked) !== -1){
         d3.select(this).call(spin);
         return;
     } else {
         oldpick.push(picked);
+        winPassed = true;
     }
     rotation += 90 - Math.round(ps/2);
     audio.play();
-    vis.transition()
+    try {
+        vis.transition()
         .duration(11000)
         .attrTween("transform", rotTween)
         .each("end", function(){
             //mark res as seen
-            audio = new Audio('./assets/Sounds/'+data[picked].sound);
-            for (let i = 0; i < data.length; i++)
-            {
-                if (data[i].id == data[picked].id)
+                audio = new Audio('./assets/Sounds/'+data[picked].sound);
+                for (let i = 0; i < data.length; i++)
                 {
-                    let x = (document.querySelector("#onePlus").checked) ? i : picked; 
-                    if (picked != i && document.querySelector("#onePlus").checked)
-                        oldpick.push(i);
-                    d3.select(".slice:nth-child(" + (x + 1) + ") path")
-                    .attr("fill", "#FFF");
-                    d3.select(".slice:nth-child(" + (x + 1) + ") text")
-                    .attr("style", "filter: blur(1.5px);")
-                    .attr("fill", "#123");
+                    if (data[i].id == data[picked].id)
+                    {
+                        let x = (document.querySelector("#onePlus").checked) ? i : picked; 
+                        if (picked != i && document.querySelector("#onePlus").checked)
+                            oldpick.push(i);
+                        d3.select(".slice:nth-child(" + (x + 1) + ") path")
+                        .attr("fill", "#FFF");
+                        d3.select(".slice:nth-child(" + (x + 1) + ") text")
+                        .attr("style", "filter: blur(1.5px);")
+                        .attr("fill", "#123");
+                    }
                 }
-            }
-            oldrotation = rotation;
-            /* Comment the below line for restrict spin to sngle time */
-            container.on("click", spin);
-            audio.play();
-            let btn = document.querySelector("button#btn-reset");
-            btn.removeAttribute("disabled", "");
+                oldrotation = rotation;
+                /* Comment the below line for restrict spin to sngle time */
+                container.on("click", spin);
+                audio.play();
+                let btn = document.querySelector("button#btn-reset");
+                btn.removeAttribute("disabled", "");
         });
+    }
+    catch (e){console.log(e);}
 }
 
 function rotTween(to) {
